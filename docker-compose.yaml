@@ -1,0 +1,31 @@
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - 8080:80
+    networks:
+      - lampp-network
+    volumes:
+      - .:/var/www/html
+    links:
+      - database:db
+  database:
+    image: mariadb
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    networks:
+      - lampp-network
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - 9090:80
+    links:
+      - database:db
+    environment:
+      PMA_USER: root
+    networks:
+      - lampp-network
+
+networks:
+  lampp-network:
